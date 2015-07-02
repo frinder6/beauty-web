@@ -2,4 +2,3 @@
 # beauty-web
 spring mvc security project
 
-hello world...

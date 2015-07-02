@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans:beans xmlns="http://www.springframework.org/schema/security" xmlns:beans="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.springframework.org/schema/beans
+http://www.springframework.org/schema/beans/spring-beans.xsd
+http://www.springframework.org/schema/security
+http://www.springframework.org/schema/security/spring-security-3.2.xsd">
+
+	<global-method-security jsr250-annotations="enabled" secured-annotations="enabled" />
+
+	<!-- 过滤掉不需要认证的资源 -->
+	<http pattern="/resources/**" security="none" />
+	<http pattern="/pages/**" security="none" />
+	<http pattern="/**/*.jpg" security="none" />
+	<http pattern="/**/*.png" security="none" />
+	<http pattern="/**/*.gif" security="none" />
+	<http pattern="/**/*.css" security="none" />
+	<http pattern="/**/*.js" security="none" />
+	<http pattern="/**/login.action*" security="none" />
+	<!-- <http pattern="/**/index.action*" security="none" /> -->
+	<!-- <http pattern="/**/*.action*" security="none" /> -->
+	<http auto-config="false" use-expressions="true" entry-point-ref="loginUrlEntryPoint">
+		<intercept-url pattern="/**" access="permitAll" />
+		<remember-me data-source-ref="dataSource" />
+		<!-- security认证之前走自己的认证 -->
+		<custom-filter before="FILTER_SECURITY_INTERCEPTOR" ref="filterInvocationInterceptor" />
+		<!-- 自定义登陆器 -->
+		<custom-filter position="FORM_LOGIN_FILTER" ref="authenticationFilter" />
+		<!-- remember-me -->
+		<custom-filter after="FORM_LOGIN_FILTER" ref="rememberMeFilter" />
+		<!-- security异常策略之前走自己的异常策略 -->
+		<custom-filter before="EXCEPTION_TRANSLATION_FILTER" ref="exceptionTranslationFilter" />
+		<!-- 自定义权限不足处理（添加ajax支持） -->
+		<access-denied-handler ref="accessDeniedHandler" />
+		<!-- session失效，防重复登陆 -->
+		<session-management invalid-session-url="/pages/errors/sessionTimeout.html" session-authentication-error-url="/pages/errors/secondLogin.html">
+			<concurrency-control max-sessions="1" error-if-maximum-exceeded="true" />
+		</session-management>
+		<logout invalidate-session="true" logout-url="/j_spring_security_logout" logout-success-url="/common/forward/login.action" />
+	</http>
+
+
+	<!-- 认证管理 -->
+	<authentication-manager alias="authenticationManager" erase-credentials="false">
+		<authentication-provider ref="myAuthenticationProvider" />
+		<authentication-provider ref="rememberMeAuthenticationProvider" />
+	</authentication-manager>
+	
+	
+	<!-- 引入权限管理bean -->
+	<beans:import resource="applicationContext-security-beans.xml" />
+
+</beans:beans>

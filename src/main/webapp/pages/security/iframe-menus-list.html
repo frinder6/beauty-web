@@ -1,0 +1,57 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+<#include "../taglib.ftl" />
+<title>菜单管理列表页</title>
+<link rel="stylesheet" type="text/css" href="${s.base}/pages/css/form.css">
+</head>
+<body>
+	<table id="table_menu" data-options="
+					rownumbers:true,
+					singleSelect:false,
+					collapsible:true,
+					autoRowHeight:false,
+					pagination:true,
+					pageSize:10,
+					toolbar:'#toolbar',
+					remoteSort:true,
+                	multiSort:true,
+					view:groupview,
+	                groupField:'parentName',
+	                groupFormatter:function(value,rows){
+	                    return value == null ? '/' : value;
+	                }
+					">
+		<thead>
+		<thead>
+			<tr>
+				<th data-options="field:'ck',checkbox:true"></th>
+				<th data-options="field:'oper',width:30,align:'center',formatter:_oper">操作</th>
+				<th data-options="field:'id',width:50,hidden:true">标识</th>
+				<th data-options="field:'resourceName',width:50,sortable:true">菜单名称</th>
+				<th data-options="field:'resourceCode',width:50,sortable:true">编码</th>
+				<th data-options="field:'resourceValue',width:150">菜单路径</th>
+				<th data-options="field:'parentName',width:50,sortable:true">父菜单</th>
+				<th data-options="field:'remark',width:100">备注</th>
+				<th data-options="field:'isSys',width:40,align:'center',formatter:_SYS_ENABLE_FORMATER">系统菜单</th>
+				<th data-options="field:'enable',width:20,align:'center',formatter:_SYS_ENABLE_FORMATER">可用</th>
+				<th data-options="field:'createTime',width:80,align:'center',sortable:true">创建时间</th>
+				<th data-options="field:'lastModifyTime',width:80,align:'center'">修改时间</th>
+			</tr>
+		</thead>
+		</thead>
+	</table>
+
+	<div id="model-dialog"></div>
+
+
+	<div id="toolbar">
+		<a href="javascript:void(0)" class="easyui-linkbutton auth" data-auth="ADD-MENU" onclick="_add()" data-options="iconCls:'icon-add',plain:true">添加</a> 
+		<a href="javascript:void(0)" class="easyui-linkbutton auth" data-auth="DELETE-MENU" onclick="_del()" data-options="iconCls:'icon-remove',plain:true">删除</a> 
+		<input class="easyui-searchbox" data-options="prompt:'请输入查询条件',searcher:doSearch" style="width: 250px;" />
+	</div>
+	
+	<script type="text/javascript" src="${s.base}/resources/easyui/datagrid-groupview.js"></script>
+	<script type="text/javascript" src="${s.base}/pages/js/security/iframe-menus-list.js"></script>
+</body>
+</html>

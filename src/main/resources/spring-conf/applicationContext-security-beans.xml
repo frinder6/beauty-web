@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:s="http://www.springframework.org/schema/security" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.springframework.org/schema/beans
+http://www.springframework.org/schema/beans/spring-beans.xsd
+http://www.springframework.org/schema/security
+http://www.springframework.org/schema/security/spring-security-3.2.xsd">
+
+	<!-- Spring Security 认证切入点 -->
+	<bean id="loginUrlEntryPoint" class="com.beauty.security.AjaxLoginUrlAuthenticationEntryPoint">
+		<property name="loginFormUrl" value="/common/forward/login.action"></property>
+	</bean>
+
+	<!-- 用户的密码加密或解密 -->
+	<bean id="passwordEncoder" class="com.beauty.security.MyPasswordEncoder" />
+	<!-- 用户登陆 -->
+	<bean id="myUserDetailsService" class="com.beauty.security.UserDetailServiceImpl" />
+	<!-- 访问决策管理 -->
+	<bean id="accessDecisionManager" class="com.beauty.security.AccessDecisionManagerImpl" />
+	<!-- 安全资源管理 -->
+	<bean id="securityMetadataSource" class="com.beauty.security.InvocationSecurityMetadataSourceServiceImpl" />
+
+	<!-- 认证管理 -->
+	<!-- 实现者 -->
+	<bean id="myAuthenticationProvider" class="org.springframework.security.authentication.dao.DaoAuthenticationProvider">
+		<property name="userDetailsService" ref="myUserDetailsService" />
+		<property name="hideUserNotFoundExceptions" value="false" />
+		<property name="passwordEncoder" ref="passwordEncoder" />
+	</bean>
+	<!-- 认证管理 -->
+
+
+	<!-- 验证调用链 -->
+	<bean id="filterInvocationInterceptor" class="org.springframework.security.web.access.intercept.FilterSecurityInterceptor">
+		<!-- securityMetadataSource>安全资源管理 -->
+		<property name="securityMetadataSource" ref="securityMetadataSource" />
+		<!-- authenticationManager>认证管理 -->
+		<property name="authenticationManager" ref="authenticationManager" />
+		<!-- accessDecisionManager>访问决策管理 -->
+		<property name="accessDecisionManager" ref="accessDecisionManager" />
+	</bean>
+	<!-- 验证调用链 -->
+
+
+	<!-- 认证异常处理 -->
+	<bean id="exceptionTranslationFilter" class="org.springframework.security.web.access.ExceptionTranslationFilter">
+		<!-- 认证未通过 -->
+		<property name="authenticationEntryPoint" ref="authenticationEntryPoint" />
+		<!-- 访问拒绝 -->
+		<property name="accessDeniedHandler" ref="accessDeniedHandler" />
+	</bean>
+	<bean id="authenticationEntryPoint" class="com.beauty.security.AjaxLoginUrlAuthenticationEntryPoint">
+		<property name="loginFormUrl" value="/pages/errors/accessDenied.html" />
+	</bean>
+	<!-- <bean id="accessDeniedHandler" class="org.springframework.security.web.access.AccessDeniedHandlerImpl"> <property name="errorPage" value="/pages/errors/accessDenied.html" /> </bean> -->
+	<bean id="accessDeniedHandler" class="com.beauty.security.AjaxAccessDeniedHandlerImpl">
+		<property name="errorPage" value="/pages/errors/accessDenied.html" />
+	</bean>
+	<!-- 认证异常处理 -->
+
+
+	<!-- 保存在不同的HTTP请求之间 SecurityContext & 清理在请求完成时SecurityContextHolder -->
+	<bean id="securityContextPersistenceFilter" class="org.springframework.security.web.context.SecurityContextPersistenceFilter" />
+
+
+	<!-- form-login实现，登陆成功、失败的具体处理逻辑 -->
+	<bean id="authenticationFilter" class="org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter">
+		<property name="filterProcessesUrl" value="/j_spring_security_check" />
+		<!-- 验证成功后的跳转 -->
+		<property name="authenticationSuccessHandler" ref="loginLogAuthenticationSuccessHandler" />
+		<!-- 验证失败后的处理 -->
+		<property name="authenticationFailureHandler" ref="simpleUrlAuthenticationFailureHandler" />
+		<!-- 认证管理 -->
+		<property name="authenticationManager" ref="authenticationManager" />
+		<!-- remember-me认证 -->
+		<property name="rememberMeServices" ref="tokenRememberMeServices" />
+		<!-- <property name="rememberMeServices" ref="persistentRememberMeServices" /> -->
+	</bean>
+	<!-- 登陆成功 -->
+	<bean id="loginLogAuthenticationSuccessHandler" class="org.springframework.security.web.authentication.SavedRequestAwareAuthenticationSuccessHandler">
+		<property name="alwaysUseDefaultTargetUrl" value="true" />
+		<property name="defaultTargetUrl" value="/common/forward/index.action" />
+		<property name="targetUrlParameter" value="redirectTo" />
+	</bean>
+	<!-- 登陆失败 -->
+	<bean id="simpleUrlAuthenticationFailureHandler" class="org.springframework.security.web.authentication.SimpleUrlAuthenticationFailureHandler">
+		<property name="defaultFailureUrl" value="/common/forward/login.action" />
+	</bean>
+	<!-- form-login实现，登陆成功、失败的具体处理逻辑 -->
+
+
+	<!-- remember-me认证 -->
+	<bean id="rememberMeFilter" class="org.springframework.security.web.authentication.rememberme.RememberMeAuthenticationFilter">
+		<property name="rememberMeServices" ref="tokenRememberMeServices" />
+		<property name="authenticationManager" ref="authenticationManager" />
+	</bean>
+	<!-- TokenBasedRememberMeServices 认证 -->
+	<bean id="tokenRememberMeServices" class="org.springframework.security.web.authentication.rememberme.TokenBasedRememberMeServices">
+		<property name="userDetailsService" ref="myUserDetailsService" />
+		<property name="key" value="admin" />
+	</bean>
+	<bean id="rememberMeAuthenticationProvider" class="org.springframework.security.authentication.RememberMeAuthenticationProvider">
+		<property name="key" value="admin" />
+	</bean>
+	<!-- PersistentTokenBasedRememberMeServices 认证 -->
+	<bean id="persistentRememberMeServices" class="org.springframework.security.web.authentication.rememberme.PersistentTokenBasedRememberMeServices">
+		<property name="key" value="admin" />
+		<property name="userDetailsService" ref="myUserDetailsService" />
+		<property name="tokenRepository" ref="tokenRepository" />
+	</bean>
+	<bean id="tokenRepository" class="org.springframework.security.web.authentication.rememberme.JdbcTokenRepositoryImpl">
+		<property name="createTableOnStartup" value="false" />
+		<property name="dataSource" ref="dataSource" />
+	</bean>
+	<!-- remember-me认证 -->
+
+
+	<!-- session管理策略 -->
+	<bean id="sessionManagement" class="org.springframework.security.web.authentication.session.ConcurrentSessionControlStrategy">
+		<constructor-arg name="sessionRegistry" ref="sessionRegistry" />
+		<property name="maximumSessions" value="1" />
+	</bean>
+	<bean id="sessionRegistry" class="org.springframework.security.core.session.SessionRegistryImpl" />
+	<!-- session管理策略 -->
+
+
+	<!-- 开启Spring Security3认证和授权日志 -->
+	<!-- <bean class="org.springframework.security.authentication.event.LoggerListener"/> -->
+	<!-- <bean class="org.springframework.security.access.event.LoggerListener"/> -->
+
+</beans>

@@ -1,0 +1,116 @@
+/**
+ * index页面样式
+ */
+* {
+	margin: 0px;
+	padding: 0px;
+}
+
+.north {
+	height: 50px;
+	background: #B3DFDA;
+}
+
+.nwest {
+	width: 198px;
+	color: #958D7B;
+	font-weight: bold;
+	font-size: 15px;
+	line-height: 40px;
+}
+
+.ncenter {
+	overflow: hidden;
+}
+
+.neast {
+	width: 180px;
+	text-align: right;
+	line-height: 40px;
+}
+
+.south {
+	height: 50px;
+	background: #A9FACD;
+}
+
+.west {
+	width: 200px;
+	margin: 0px;
+	padding: 0px;
+	overflow: hidden;
+}
+
+.east {
+	width: 100px;
+	padding: 5px;
+}
+
+.content-iframe {
+	overflow: hidden;
+}
+
+.main-iframe {
+	width: 100%;
+	height: 100%;
+	border: none;
+}
+
+/**
+ * 导航部分样式
+ */
+.easyui-accordion ul {
+	width: 100%;
+	margin: 0px;
+	padding: 0px;
+}
+
+.easyui-accordion ul li {
+	width: 100%;
+	list-style: none;
+	height: 25px;
+	line-height: 25px;
+	text-indent: 20px;
+	border-bottom: 1px solid white;
+	cursor: pointer;
+}
+
+.easyui-accordion ul li:hover {
+	background: #E8F1FF;
+	font-weight: bold;
+	text-indent: 20px;
+}
+
+.click {
+	background: #E8F1FF;
+	font-weight: bold;
+}
+
+/**
+ *
+ */
+.hide {
+	display: none;
+}
+
+/**
+ * 表格部分
+ */
+.toolbar {
+	padding: 2px 3px;
+}
+
+.oper-bar a {
+	display: block;
+}
+
+/**
+ * 水平导航
+ */
+.selected {
+  background: #654b24;
+  color: #ffffff;
+  border: 1px solid #654b24;
+  filter: none;
+  font-weight: bold;
+}

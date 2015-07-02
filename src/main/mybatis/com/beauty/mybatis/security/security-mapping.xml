@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="Security">
+
+	<select id="queryUserRoleAuths" parameterType="java.lang.String" resultType="java.util.Map">
+		SELECT
+		a.authority_code
+		FROM beauty_user u, beauty_role r, beauty_user_role ur, beauty_authority a, beauty_role_authority ra
+		WHERE r.id = ur.roleId AND u.id = ur.userId AND r.id = ra.roleId AND ra.authorityId = a.id
+		<if test="_parameter != null">
+			AND u.usercode = #{usercode}
+		</if>
+		GROUP BY a.id, a.id, a.authority_name, a.authority_code, a.is_sys
+		ORDER BY a.id
+	</select>
+
+	<select id="queryAllResources" resultType="java.util.Map">
+		SELECT re.resource_value, a.authority_code
+		FROM beauty_user u, beauty_role r, beauty_user_role ur, beauty_authority a, beauty_role_authority ra, beauty_resource re, beauty_authority_resource ar
+		WHERE r.id = ur.roleId AND u.id = ur.userId AND r.id = ra.roleId AND ra.authorityId = a.id AND a.id = ar.authorityId AND ar.resourceId = re.id
+		GROUP BY re.resource_value, a.authority_code
+		ORDER BY a.id
+	</select>
+
+	<select id="queryUserByUsercode" parameterType="java.lang.String" resultMap="com.beauty.dao.security2.UserMapper.BaseResultMap">
+		SELECT id, username, usercode, password, enable, is_sys
+		FROM beauty_user
+		WHERE usercode = #{usercode}
+	</select>
+
+	<select id="queryUnConfigAuthResources" resultType="java.util.Map">
+		SELECT id, resource_code authorityCode, resource_name authorityName, remark, is_sys isSys
+		FROM beauty_resource
+		WHERE NOT EXISTS
+		(SELECT id
+		FROM beauty_authority
+		WHERE authority_code = resource_code)
+		ORDER BY id
+	</select>
+
+</mapper>

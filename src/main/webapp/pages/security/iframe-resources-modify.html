@@ -1,0 +1,58 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+<#include "../taglib.ftl" />
+<title>修改资源</title>
+<link rel="stylesheet" type="text/css" href="${s.base}/pages/css/form.css" />
+</head>
+<body>
+	<form id="basicForm" action="${s.base}/resource/modify.action" class="easyui-form" method="post" data-options="novalidate:true">
+		<input type="hidden" name="id" />
+		<div class="form-group">
+			<label>资源名称 ：<span class="asterisk">*</span></label> <input type="text" name="resourceName" class="easyui-textbox" style="width: 75%; height: 30px;" data-options="required:true" />
+		</div>
+		<div class="form-group">
+			<label>编码：<span class="asterisk">*</span></label> <input type="text" name="resourceCode" class="easyui-textbox" style="width: 75%; height: 30px;" data-options="required:true" />
+		</div>
+		<div class="form-group">
+			<label>资源值 ：<span class="asterisk">*</span></label> <input class="easyui-textbox" style="width: 75%; height: 30px;" type="text" name="resourceValue" data-options="required:true" />
+		</div>
+		<div class="form-group">
+			<label>备注：<span class="asterisk">*</span></label> <select id="select_type" name="type" class="easyui-combobox" style="width: 75%; height: 30px;">
+				<option value="1" selected>REST类型</option>
+				<option value="2">Method类型</option>
+			</select>
+		</div>
+		<div class="form-group">
+			<label>备注：<span class="asterisk">*</span></label> <input class="easyui-textbox" style="width: 75%; height: 60px;" data-options="multiline:true,required:true" type="text" name="remark" />
+		</div>
+		<div class="form-group">
+			<label>系统级：<span class="asterisk">*</span></label> <select name="isSys" class="easyui-combobox" style="width: 75%; height: 30px;">
+				<option value="0">否</option>
+				<option value="1">是</option>
+			</select>
+		</div>
+		<div class="form-group">
+			<label>可用：<span class="asterisk">*</span></label> <select name="enable" class="easyui-combobox" style="width: 75%; height: 30px;">
+				<option value="0">否</option>
+				<option value="1" selected="selected">是</option>
+			</select>
+		</div>
+		<div class="form-group">
+			<input name="groupName" style="display: none;" />
+			<label>所属组：<span class="asterisk">*</span></label> <select id="select_group" name="groupId" class="easyui-combobox" style="width: 75%; height: 30px;"></select>
+		</div>
+	</form>
+	<div class="form-btns">
+		<a href="javascript:void(0)" class="easyui-linkbutton" data-options="iconCls:'icon-ok'" onclick="submitForm()">提 交</a> <a href="javascript:void(0)" class="easyui-linkbutton" data-options="iconCls:'icon-cancel'"  onclick="_close_nf()">取 消</a>
+	</div>
+	
+	<script type="text/javascript" src="${s.base}/pages/js/security/iframe-auth-rese-am.js"></script>
+	<script type="text/javascript">
+		$(function() {
+			var url = _PATH('/resource/query/id.action?id={0}');
+			$('#basicForm').form('load', url.format('${param}'));
+		});
+	</script>
+</body>
+</html>

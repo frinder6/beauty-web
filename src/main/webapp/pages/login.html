@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html>
+<head>
+<#include "taglib.ftl" />
+<title>登陆页面</title>
+<script type="text/javascript">
+	// session 登陆页面跳出iframe
+	if (window != top) {
+		top.location.href = location.href;
+	}
+</script>
+<style type="text/css">
+* {
+	margin: 0px;
+	padding: 0px;
+}
+
+#login_panel {
+	margin: 0 auto;
+	width: 400px;
+	margin-top: 140px;
+}
+
+.easyui-panel {
+	padding: 30px 70px 20px 70px;
+	margin: 0 auto;
+}
+
+.error {
+	color: red;
+	line-height: 30px;
+	text-align: center;
+	font-size: 16px;
+	margin-top: 5px;
+}
+</style>
+
+</head>
+<body>
+
+	<div id="login_panel">
+		<form id="logFrm" action="${s.base}/j_spring_security_check" method="post" onsubmit="return $(this).form('validate');">
+			<div class="easyui-panel" title="Login to system">
+				<div>
+					<input name="j_username" value="admin" missingMessage="请输入用户名" class="easyui-textbox easyui-validatebox textbox" data-options="prompt:'Username',iconCls:'icon-man',iconWidth:38,required:true" style="width: 100%; height: 40px; padding: 12px;">
+				</div>
+				<br />
+				<div>
+					<input name="j_password" value="123456" missingMessage="请输入密码" class="easyui-textbox" type="password" data-options="prompt:'Password',iconCls:'icon-lock',iconWidth:38,required:true" style="width: 100%; height: 40px; padding: 12px;">
+				</div>
+				<br />
+				<div>
+					<input type="checkbox" checked="checked"> <span>Remember me</span>
+				</div>
+				<br />
+				<div>
+					<a href="javascript:login()" class="easyui-linkbutton" data-options="iconCls:'icon-ok'" style="padding: 5px 0px; width: 100%;"> <span style="font-size: 14px;">Login</span>
+					</a>
+				</div>
+				<div class="error">${error}</div>
+			</div>
+		</form>
+	</div>
+	<script type="text/javascript" src="${s.base}/dwr/engine.js"></script>
+	<script type="text/javascript" src="${s.base}/dwr/util.js"></script>
+	<script type='text/javascript' src='${s.base}/dwr/interface/common.js'></script>
+	<script type="text/javascript">
+		function login() {
+			$('#logFrm').submit();
+		}
+		$(function() {
+			$(document).keypress(function(e) {
+				if (e.keyCode == 13) {
+					e.cancelBubble = true;
+					e.returnValue = false;
+					login();
+				}
+			})
+			
+			$('input').focus(function(){
+				$('.error').hide();
+			});
+		});
+	</script>
+</body>
+</html>

@@ -1,0 +1,172 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+<#include "../taglib.ftl" />
+<title>角色管理页</title>
+</head>
+<body>
+	<div class="easyui-layout" data-options="fit:true" style="width: 100%;">
+		<div data-options="region:'north'" style="height: 50px; padding: 10px 0px 0px 5px;">
+			<form id="basicForm">
+				<input type="hidden" name="id" /> <label>用户名 ：</label> <input type="text" name="username" class="easyui-textbox" style="width: 150px; border: none;" readonly="readonly" /> <label>帐号 ：</label> <input type="text" name="usercode" class="easyui-textbox" style="width: 150px; border: none;" readonly="readonly" /> <label>备注：</label> <input type="text" name="remark" class="easyui-textbox" style="width: 150px; border: none;" readonly="readonly" />
+			</form>
+		</div>
+		<div data-options="region:'west',split:false,border:false,title:'所有权限',collapsible:false" style="width: 50%;">
+			<table id="table_role_all" data-options="
+							rownumbers:true,
+							singleSelect:false,
+							collapsible:true,
+							autoRowHeight:false,
+							pagination:false,
+							toolbar:add_toolbar,
+							remoteSort:false,
+							view:groupview,
+			               	groupField:'isSys',
+			                groupFormatter:function(value,rows){
+			                    return value == 1 ? '系统角色' : '普通角色';
+			                }
+							">
+				<thead>
+					<tr>
+						<th data-options="field:'ck',checkbox:true"></th>
+						<th data-options="field:'id',width:50,hidden:true">标识</th>
+						<th data-options="field:'roleName',width:50,sortable:true">权限名</th>
+					</tr>
+				</thead>
+			</table>
+		</div>
+		<div data-options="region:'east',split:true,border:false,title:'选中权限',collapsible:false" style="width: 50%;">
+			<table id="table_role_selected" data-options="
+							rownumbers:true,
+							singleSelect:false,
+							collapsible:true,
+							autoRowHeight:false,
+							pagination:false,
+							toolbar:del_toolbar,
+							remoteSort:false,
+							view:groupview,
+			                groupField:'isSys',
+			                groupFormatter:function(value,rows){
+			                     return value == 1 ? '系统角色' : '普通角色';
+			                }
+							">
+				<thead>
+					<tr>
+						<th data-options="field:'ck',checkbox:true"></th>
+						<th data-options="field:'id',width:50,hidden:true">标识</th>
+						<th data-options="field:'roleName',width:50,sortable:true">权限名</th>
+					</tr>
+				</thead>
+			</table>
+		</div>
+		<div data-options="region:'south'" style="height:50px;text-align: center;padding-top: 10px;">
+			<a href="javascript:void(0)" class="easyui-linkbutton" data-options="iconCls:'icon-ok'" onclick="save()">保 存</a> 
+			<a href="javascript:void(0)" class="easyui-linkbutton" data-options="iconCls:'icon-cancel'" onclick="_close_nf()">取 消</a>
+		</div>
+	</div>
+
+	<script type="text/javascript" src="${s.base}/resources/easyui/datagrid-groupview.js"></script>
+	<script type="text/javascript">
+		var save = function(){
+			var table = $('#table_role_selected');
+			var data = table.datagrid('getData');
+			var inserts = $.map(data.rows, function(row, i){
+				return row.id;
+			}).join(',');
+			$.ajax({
+				"type" : "get",
+				"url" : _PATH('/user/reset/user.action'),
+				"dataType" : "text",
+				"data" : {
+					userid : '${param}',
+					inserts : inserts
+				},
+				"success" : function(msg) {
+					$('#table_role_all').datagrid('reload');
+					table.datagrid('reload');
+					layer.msg(msg);
+					setTimeout(function(){
+						_close_nf();
+					}, 2000);
+				},
+				"error" : function(msg){
+					layer.msg(msg);
+				}
+			});
+		};
+		var add_toolbar = [ {
+			text : '添加',
+			iconCls : 'icon-add',
+			handler : function() {
+				var table1 = $('#table_role_all');
+				var table2 = $('#table_role_selected');
+				var rows = table1.datagrid('getSelections');
+				$.each(rows, function(i, row) {
+					var idx = table1.datagrid('getRowIndex', row);
+					table1.datagrid('deleteRow', idx);
+					table2.datagrid('insertRow', {
+						index : 0,
+						row : row
+					});
+				});
+			}
+		} ];
+		var del_toolbar = [ {
+			text : '删除',
+			iconCls : 'icon-remove',
+			handler : function() {
+				var table2 = $('#table_role_all');
+				var table1 = $('#table_role_selected');
+				var rows = table1.datagrid('getSelections');
+				$.each(rows, function(i, row) {
+					var idx = table1.datagrid('getRowIndex', row);
+					table1.datagrid('deleteRow', idx);
+					table2.datagrid('insertRow', {
+						index : 0,
+						row : row
+					});
+				});
+			}
+		} ];
+		
+		$(function() {
+			var url = _PATH('/user/query/id.action?id={0}');
+			$('#basicForm').form('load', url.format('${param}'));
+
+			$('#table_role_all').datagrid({
+				url : _PATH('/user/query/role/table.action'),
+				queryParams : {
+					userid : '${param}',
+					selected : false
+				},
+				fit : true,
+				fitColumns : true,
+				method : 'POST'
+			});
+
+			/**
+			 * 重置分页工具条
+			 */
+			//var pager1 = $('#table_role_all').datagrid().datagrid('getPager');
+			//pager1.pagination(_linkPagebar);
+
+			$('#table_role_selected').datagrid({
+				url : _PATH('/user/query/role/table.action'),
+				queryParams : {
+					userid : '${param}',
+					selected : true
+				},
+				fit : true,
+				fitColumns : true,
+				method : 'POST'
+			});
+
+			/**
+			 * 重置分页工具条
+			 */
+			//var pager2 = $('#table_role_selected').datagrid().datagrid('getPager');
+			//pager2.pagination(_linkPagebar);
+		});
+	</script>
+</body>
+</html>

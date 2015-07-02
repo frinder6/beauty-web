@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xmlns:context="http://www.springframework.org/schema/context" xmlns:aop="http://www.springframework.org/schema/aop" xsi:schemaLocation="
+        http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://www.springframework.org/schema/context
+        http://www.springframework.org/schema/context/spring-context.xsd
+        http://www.springframework.org/schema/aop 
+        http://www.springframework.org/schema/aop/spring-aop.xsd">
+
+	<!-- 监听base-package下面所有带注解的类，交给spring容器管理 -->
+	<context:component-scan base-package="com.beauty" />
+	<!-- proxy-target-class="true"; cglib代理，基于类 -->
+	<aop:aspectj-autoproxy proxy-target-class="true" />
+	
+	<bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+		<property name="locations">
+			<list>
+				<value>classpath:props/jdbc.properties</value>
+				<value>classpath:props/c3p0.properties</value>
+				<value>classpath:props/redis.properties</value>
+				<value>classpath:props/freemarker.properties</value>
+			</list>
+		</property>
+	</bean>
+
+	<!-- spring conf connection pool -->
+	<!-- <bean id="dataSource" class="org.springframework.jndi.JndiObjectFactoryBean"> <property name="jndiName"> <value>java:/comp/env/jdbc/mysql</value> </property> </bean> -->
+
+	<bean id="dataSource1" class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close">
+		<property name="driverClassName" value="${driver}" />
+		<property name="url" value="${url}" />
+		<property name="username" value="${username}" />
+		<property name="password" value="${password}" />
+	</bean>
+
+	<!-- spring conf connection pool -->
+	<bean id="dataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource" destroy-method="close" lazy-init="false">
+		<property name="driverClass" value="${cpool.driver}" />
+		<property name="jdbcUrl" value="${cpool.url}" />
+		<property name="user" value="${cpool.username}" />
+		<property name="password" value="${cpool.password}" />
+		<property name="autoCommitOnClose" value="true" />
+		<property name="checkoutTimeout" value="${cpool.checkoutTimeout}" />
+		<property name="initialPoolSize" value="${cpool.minPoolSize}" />
+		<property name="minPoolSize" value="${cpool.minPoolSize}" />
+		<property name="maxPoolSize" value="${cpool.maxPoolSize}" />
+		<property name="maxIdleTime" value="${cpool.maxIdleTime}" />
+		<property name="maxIdleTimeExcessConnections" value="${cpool.maxIdleTimeExcessConnections}" />
+		<property name="acquireIncrement" value="${cpool.acquireIncrement}" />
+		<property name="acquireRetryAttempts" value="${cpool.acquireRetryAttempts}" />
+		<property name="acquireRetryDelay" value="${cpool.acquireRetryDelay}" />
+	</bean>
+
+
+	<import resource="applicationContext-ibatis.xml" />
+	<import resource="applicationContext-json.xml" />
+	<!-- <import resource="applicationContext-quartz.xml" /> -->
+	<import resource="applicationContext-dwr.xml" />
+	<import resource="applicationContext-aop.xml" />
+	<import resource="applicationContext-redis.xml" />
+	<import resource="applicationContext-freemarker.xml" />
+	<import resource="applicationContext-security.xml" />
+
+
+</beans>

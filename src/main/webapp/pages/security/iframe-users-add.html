@@ -1,0 +1,39 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+<#include "../taglib.ftl" />
+<title>新增用户</title>
+<link rel="stylesheet" type="text/css" href="${s.base}/pages/css/form.css" />
+</head>
+<body>
+	<form id="basicForm" action="${s.base}/user/insert.action" class="easyui-form" method="post" data-options="novalidate:true">
+		<div class="form-group">
+			<label>用户名称 ：<span class="asterisk">*</span></label> <input type="text" name="username" class="easyui-textbox" style="width: 75%; height: 30px;" data-options="required:true" />
+		</div>
+		<div class="form-group">
+			<label>用户编码 ：<span class="asterisk">*</span></label> <input type="text" name="usercode" class="easyui-textbox" style="width: 75%; height: 30px;" data-options="required:true" />
+		</div>
+		<div class="form-group">
+			<label>密码 ：<span class="asterisk">*</span></label> <input type="password" name="password" class="easyui-textbox" style="width: 75%; height: 30px;" data-options="required:true" />
+		</div>
+		<div class="form-group">
+			<label>备注：<span class="asterisk">*</span></label> <input type="text" name="remark" class="easyui-textbox" style="width: 75%; height: 60px;" data-options="multiline:true,required:true" />
+		</div>
+		<div class="form-group">
+			<label>超级用户：<span class="asterisk">*</span></label> <select name="isSys" class="easyui-combobox" style="width: 75%; height: 30px;">
+				<option value="0">否</option>
+				<option value="1">是</option>
+			</select>
+		</div>
+		<div class="form-group">
+			<label>可用：<span class="asterisk">*</span></label> <select name="enable" class="easyui-combobox" style="width: 75%; height: 30px;">
+				<option value="0">否</option>
+				<option value="1" selected="selected">是</option>
+			</select>
+		</div>
+	</form>
+	<div class="form-btns">
+		<a href="javascript:void(0)" class="easyui-linkbutton" data-options="iconCls:'icon-ok'" onclick="submitForm()">提 交</a> <a href="javascript:void(0)" class="easyui-linkbutton" data-options="iconCls:'icon-redo'" onclick="clearForm()">重 置</a>
+	</div>
+</body>
+</html>

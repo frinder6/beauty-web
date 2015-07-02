@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+<head>
+<#include "taglib.ftl" />
+<title>首页</title>
+<link rel="stylesheet" type="text/css" href="${s.base}/pages/css/index.css">
+<script type="text/javascript" src="${s.base}/pages/js/jquery-nav.js"></script>
+<script type="text/javascript">
+	$(function() {
+		$('.ncenter').hnav({
+			vnid : '#main-nav', // 垂直导航id
+			contentId : '#main-content',
+			url : _PATH('/resource/load/menu.action'),
+			params : {
+				level : 2,
+				parentId : 1,
+				type : 3
+			}
+		});
+		
+		$('#flush').click(function(){
+			$.ajax({
+				type : "POST",
+				url : _PATH('/common/flush.action'),
+				data : {},
+				dataType : "text",
+				success : function(data) {
+					layer.msg(data);
+				}
+			});
+		});
+	});
+</script>
+</head>
+<body class="easyui-layout">
+	<div data-options="region:'north',border:true" class="north">
+		<div class="easyui-layout" data-options="fit:true">
+			<div data-options="region:'west',split:false,border:false" class="nwest">spring-security管理项目</div>
+			<div data-options="region:'center',border:true" class="ncenter" style="border-bottom: none;border-top: none;">
+				<a href="#" class="easyui-linkbutton" style="width: 100px;height: 50px;">Home</a> 
+				<a href="#" class="easyui-linkbutton" style="width: 100px;height: 50px;">Edit</a> 
+				<a href="#" class="easyui-linkbutton" style="width: 100px;height: 50px;">Help</a> 
+				<a href="#" class="easyui-linkbutton" style="width: 100px;height: 50px;">About</a>
+			</div>
+			<div data-options="region:'east',split:false,border:false" class="neast">
+				Welcome：<b>${SPRING_SECURITY_CONTEXT.authentication.name}</b> <a href="${s.base}/j_spring_security_logout" class="easyui-linkbutton logout" data-options="iconCls:'icon-no'">退出</a>
+			</div>
+		</div>
+	</div>
+	<div id="main-nav" data-options="region:'west',split:false,title:'导航栏'" class="west">
+		<!-- <div id="nav" class="easyui-accordion" data-options="fit:true,border:false"></div> -->
+		<div class="easyui-menu" data-options="inline:true" style="width:100%">
+            <div onclick="javascript:alert('new')">New</div>
+            <div data-options="iconCls:'icon-save'">Save</div>
+            <div data-options="iconCls:'icon-print',disabled:true">Print</div>
+            <div class="menu-sep"></div>
+            <div>Exit</div>
+        </div>
+	</div>
+	<div data-options="region:'east',split:true,collapsed:true,title:'操作栏'" class="east">
+		<a id="flush" href="javascript:void(0)" class="easyui-linkbutton" data-options="iconCls:'icon-reload'" style="width:80px">刷新缓存</a>
+	</div>
+	<div id="main-content" data-options="region:'center',border:false" class="content-iframe easyui-tabs">
+		<!-- <iframe class="main-iframe" src="${s.base}/pages/content.html"></iframe> -->
+	</div>
+</body>
+</html>

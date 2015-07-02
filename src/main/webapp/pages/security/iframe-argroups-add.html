@@ -1,0 +1,30 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+<#include "../taglib.ftl" />
+<title>新增资源-权限组</title>
+<link rel="stylesheet" type="text/css" href="${s.base}/pages/css/form.css" />
+</head>
+<body>
+	<form id="basicForm" action="${s.base}/argroup/insert.action" class="easyui-form" method="post" data-options="novalidate:true">
+		<div class="form-group">
+			<label>组名称 ：<span class="asterisk">*</span></label> <input type="text" name="groupName" class="easyui-textbox" style="width: 75%; height: 30px;" data-options="required:true" />
+		</div>
+		<div class="form-group">
+			<label>组编码 ：<span class="asterisk">*</span></label> <input type="text" name="groupCode" class="easyui-textbox" style="width: 75%; height: 30px;" data-options="required:true" />
+		</div>
+		<div class="form-group">
+			<label>备注：<span class="asterisk">*</span></label> <input type="text" name="remark" class="easyui-textbox" style="width: 75%; height: 60px;" data-options="multiline:true,required:true" />
+		</div>
+		<div class="form-group">
+			<label>可用：<span class="asterisk">*</span></label> <select name="enable" class="easyui-combobox" style="width: 75%; height: 30px;">
+				<option value="0">否</option>
+				<option value="1" selected="selected">是</option>
+			</select>
+		</div>
+	</form>
+	<div class="form-btns">
+		<a href="javascript:void(0)" class="easyui-linkbutton" data-options="iconCls:'icon-ok'" onclick="submitForm()">提 交</a> <a href="javascript:void(0)" class="easyui-linkbutton" data-options="iconCls:'icon-redo'" onclick="clearForm()">重 置</a>
+	</div>
+</body>
+</html>

@@ -15,6 +15,6 @@
         <wb-resource deploy-path="/WEB-INF/classes" source-path="/src/main/controller"/>
         <wb-resource deploy-path="/WEB-INF/classes" source-path="/src/main/commons"/>
         <property name="java-output-path" value="/beauty-web/target/classes"/>
-        <property name="context-root" value="beauty-web"/>
+        <property name="context-root" value="beauty"/>
     </wb-module>
 </project-modules>

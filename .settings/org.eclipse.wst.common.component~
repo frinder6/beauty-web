@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?><project-modules id="moduleCoreId" project-version="1.6.0">
+<?xml version="1.0" encoding="UTF-8"?><project-modules id="moduleCoreId" project-version="1.5.0">
     <wb-module deploy-name="beauty-web">
         <wb-resource deploy-path="/" source-path="/target/m2e-wtp/web-resources"/>
         <wb-resource deploy-path="/" source-path="/src/main/webapp" tag="defaultRootSource"/>
@@ -13,10 +13,8 @@
         <wb-resource deploy-path="/WEB-INF/classes" source-path="/src/main/dao"/>
         <wb-resource deploy-path="/WEB-INF/classes" source-path="/src/main/service"/>
         <wb-resource deploy-path="/WEB-INF/classes" source-path="/src/main/controller"/>
-        <wb-resource deploy-path="/WEB-INF/classes" source-path="/src/test/java"/>
-        <wb-resource deploy-path="/WEB-INF/classes" source-path="/src/test/resources"/>
         <wb-resource deploy-path="/WEB-INF/classes" source-path="/src/main/commons"/>
         <property name="java-output-path" value="/beauty-web/target/classes"/>
-        <property name="context-root" value="beauty"/>
+        <property name="context-root" value="beauty-web"/>
     </wb-module>
 </project-modules>

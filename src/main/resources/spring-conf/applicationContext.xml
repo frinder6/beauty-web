@@ -60,6 +60,7 @@
 	<import resource="applicationContext-redis.xml" />
 	<import resource="applicationContext-freemarker.xml" />
 	<import resource="applicationContext-security.xml" />
+	<import resource="applicationContext-hibernate.xml" />
 
 
 </beans>

@@ -1,4 +1,4 @@
-package com;
+package com.beauty.util.csv;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;

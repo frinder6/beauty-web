@@ -1,4 +1,4 @@
-package com;
+package com.beauty.util.csv;
 
 import java.io.IOException;
 import java.util.ArrayList;

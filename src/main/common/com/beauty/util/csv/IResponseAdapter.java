@@ -1,4 +1,4 @@
-package com;
+package com.beauty.util.csv;
 
 public interface IResponseAdapter {
 

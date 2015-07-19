@@ -23,8 +23,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.beauty.base.IMapperService;
 import com.beauty.entity.security2.Group;
+import com.beauty.service.base.IMapperService;
 import com.beauty.util.CodeUtil;
 
 /**

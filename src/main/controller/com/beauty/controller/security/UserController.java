@@ -26,12 +26,12 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.beauty.base.IMapperService;
 import com.beauty.controller.security.util.ControllerUtil;
 import com.beauty.entity.security2.User;
 import com.beauty.entity.security2.UserReRole;
 import com.beauty.redis.RedisService;
 import com.beauty.security.UserInfo;
+import com.beauty.service.base.IMapperService;
 import com.beauty.util.CodeUtil;
 
 /**

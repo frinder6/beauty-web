@@ -24,8 +24,8 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Component;
 
 import com.alibaba.fastjson.JSON;
-import com.beauty.base.ISecurityService;
 import com.beauty.entity.security2.User;
+import com.beauty.service.base.ISecurityService;
 
 /**
  * @ClassName: UserDetailServiceImpl

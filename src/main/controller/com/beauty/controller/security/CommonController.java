@@ -22,8 +22,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.beauty.base.IMapperService;
+import com.alibaba.fastjson.JSON;
+import com.beauty.entity.security.BeautyAuthorityResource;
 import com.beauty.redis.RedisValueService;
+import com.beauty.service.base.IMapperService;
+import com.beauty.service.base.IService;
 import com.beauty.util.CodeUtil;
 
 /**
@@ -47,6 +50,9 @@ public class CommonController {
 
 	@Resource(name = "redisValueService")
 	private RedisValueService redisValueService;
+
+	@Resource(name = "beautyAuthorityResourceService")
+	private IService<BeautyAuthorityResource> beautyAuthorityResourceService;
 
 	/**
 	 * 
@@ -106,9 +112,9 @@ public class CommonController {
 
 	/**
 	 * 
-	 * @Title: error 
-	 * @Description: TODO(获取错误信息)  
-	 * @author frinder_liu 
+	 * @Title: error
+	 * @Description: TODO(获取错误信息)
+	 * @author frinder_liu
 	 * @param session
 	 * @return
 	 * @return String
@@ -118,11 +124,23 @@ public class CommonController {
 	@RemoteMethod
 	public String error(HttpSession session) {
 		Object obj = session.getAttribute("SPRING_SECURITY_LAST_EXCEPTION");
-		if (null != obj){
+		if (null != obj) {
 			AuthenticationException exception = (AuthenticationException) obj;
 			return exception.getMessage();
 		}
 		return null;
+	}
+
+	@RequestMapping(value = "/hibernate")
+	public String test() {
+		BeautyAuthorityResource arg = new BeautyAuthorityResource(1L, 2L);
+		// this.beautyAuthorityResourceService.persist(arg);
+		arg.setId(54L);
+		// this.beautyAuthorityResourceService.merge(arg);
+		//BeautyAuthorityResource arg = this.beautyAuthorityResourceService.findById(BeautyAuthorityResource.class, 54L);
+		//System.out.println(JSON.toJSONString(arg));
+		this.beautyAuthorityResourceService.remove(arg);
+		return CodeUtil.SUCCESS;
 	}
 
 }

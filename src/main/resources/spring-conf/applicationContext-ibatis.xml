@@ -15,7 +15,7 @@
 	</bean>
 
 	<!-- 配置sqlSessionTemplate -->
-	<bean id="sqlSessionTemplate" class="org.mybatis.spring.SqlSessionTemplate">
+	<bean id="sqlSessionTemplate" class="org.mybatis.spring.SqlSessionTemplate" scope="prototype">
 		<constructor-arg index="0" ref="sqlSessionFactory" />
 	</bean>
 
@@ -26,12 +26,12 @@
 
 
 	<!-- 事务管理机制 -->
-	<bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+	<!-- <bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
 		<property name="dataSource" ref="dataSource" />
-	</bean>
+	</bean> -->
 
 	<!-- 拦截器式事务管理策略 -->
-	<bean id="transactionInterceptor" class="org.springframework.transaction.interceptor.TransactionInterceptor">
+	<!-- <bean id="transactionInterceptor" class="org.springframework.transaction.interceptor.TransactionInterceptor">
 		<property name="transactionManager" ref="transactionManager" />
 		<property name="transactionAttributes">
 			<props>
@@ -42,10 +42,10 @@
 				<prop key="desc*">PROPAGATION_SUPPORTS,ISOLATION_DEFAULT,readOnly</prop>
 			</props>
 		</property>
-	</bean>
+	</bean> -->
 	
 	<!-- 根据Bean的名字自动创建代理类 -->
-	<bean class="org.springframework.aop.framework.autoproxy.BeanNameAutoProxyCreator">
+	<!-- <bean class="org.springframework.aop.framework.autoproxy.BeanNameAutoProxyCreator">
 		<property name="beanNames">
 			<list>
 				<value>*Service</value>
@@ -56,6 +56,6 @@
 				<value>transactionInterceptor</value>
 			</list>
 		</property>
-	</bean>
+	</bean> -->
 
 </beans>

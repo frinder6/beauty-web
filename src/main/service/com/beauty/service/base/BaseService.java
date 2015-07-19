@@ -6,12 +6,14 @@
  * @date 2015年5月18日 下午10:51:20 
  * @version V1.0   
  */
-package com.beauty.base;
+package com.beauty.service.base;
 
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+
+import com.beauty.dao.base.IDao;
 
 /**
  * @ClassName: BaseService
@@ -84,6 +86,30 @@ public class BaseService<T> implements IService<T> {
 	public int selectByPageCount(String sql, T arg1) {
 		// TODO Auto-generated method stub
 		return (Integer) this.baseDao.queryOne(sql, arg1);
+	}
+
+	@Override
+	public void persist(T arg) {
+		// TODO Auto-generated method stub
+		this.baseDao.persist(arg);
+	}
+
+	@Override
+	public void remove(T arg) {
+		// TODO Auto-generated method stub
+		this.baseDao.remove(arg);
+	}
+
+	@Override
+	public void merge(T arg) {
+		// TODO Auto-generated method stub
+		this.baseDao.merge(arg);
+	}
+
+	@Override
+	public T findById(Class<T> arg, Long id) {
+		// TODO Auto-generated method stub
+		return this.baseDao.findById(arg, id);
 	}
 
 }

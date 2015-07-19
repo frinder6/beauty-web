@@ -13,9 +13,9 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.beauty.base.BaseMapperService;
 import com.beauty.dao.security2.RoleReAuthorityMapper;
 import com.beauty.entity.security2.RoleReAuthority;
+import com.beauty.service.base.BaseMapperService;
 
 /**
  * @ClassName: RoleReAuthorityService

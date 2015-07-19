@@ -6,7 +6,7 @@
  * @date 2015年6月7日 下午2:16:29 
  * @version V1.0   
  */
-package com.beauty.base;
+package com.beauty.service.base;
 
 import java.util.List;
 

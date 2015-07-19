@@ -6,7 +6,7 @@
  * @date 2015年4月4日 下午1:03:23 
  * @version V1.0   
  */
-package com.beauty.base;
+package com.beauty.dao.base;
 
 import java.util.List;
 

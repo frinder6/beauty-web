@@ -25,9 +25,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.beauty.base.IMapperService;
 import com.beauty.entity.security2.Authority;
 import com.beauty.entity.security2.AuthorityReResource;
+import com.beauty.service.base.IMapperService;
 import com.beauty.util.CodeUtil;
 
 /**

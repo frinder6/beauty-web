@@ -31,5 +31,6 @@
 	<import resource="applicationContext-ibatis.xml" />
 	<import resource="applicationContext-json.xml" />
 	<import resource="applicationContext-redis.xml" />
+	<import resource="applicationContext-hibernate.xml" />
 
 </beans>

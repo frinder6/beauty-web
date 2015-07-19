@@ -6,7 +6,7 @@
  * @date 2015年5月18日 下午10:46:38 
  * @version V1.0   
  */
-package com.beauty.base;
+package com.beauty.service.base;
 
 import java.util.List;
 
@@ -18,6 +18,14 @@ import java.util.List;
  * 
  */
 public interface IService<T> {
+	
+	public void persist(T arg);
+
+	public void remove(T arg);
+
+	public void merge(T arg);
+
+	public T findById(Class<T> arg, Long id);
 
 	public int insert(String sql, T arg1);
 

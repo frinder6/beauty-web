@@ -13,10 +13,10 @@ import java.util.List;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
-import com.beauty.base.BaseService;
-import com.beauty.base.ISecurityService;
 import com.beauty.entity.security2.Resource;
 import com.beauty.entity.security2.User;
+import com.beauty.service.base.BaseService;
+import com.beauty.service.base.ISecurityService;
 import com.beauty.service.security.util.MapperUtils;
 import com.beauty.service.security.util.RedisCacheKey;
 

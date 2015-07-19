@@ -26,7 +26,7 @@ import org.springframework.security.web.access.intercept.FilterInvocationSecurit
 import org.springframework.stereotype.Component;
 
 import com.alibaba.fastjson.JSON;
-import com.beauty.base.ISecurityService;
+import com.beauty.service.base.ISecurityService;
 
 /**
  * @ClassName: InvocationSecurityMetadataSourceServiceImpl

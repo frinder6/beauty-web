@@ -6,7 +6,7 @@
  * @date 2015年5月18日 下午10:48:15 
  * @version V1.0   
  */
-package com.beauty.base;
+package com.beauty.dao.base;
 
 import java.util.List;
 
@@ -19,10 +19,18 @@ import java.util.List;
  */
 public interface IDao<T> {
 
+	public void persist(T arg);
+
+	public void remove(T arg);
+
+	public void merge(T arg);
+
+	public T findById(Class<T> arg, Long id);
+
 	public int insert(String sql, T arg1);
 
 	public int delete(String sql, String arg1);
-	
+
 	public int deletes(String sql, List<String> arg1);
 
 	public int update(String sql, T arg1);
@@ -34,5 +42,5 @@ public interface IDao<T> {
 	public T queryOne(String sql);
 
 	public T queryOne(String sql, T arg1);
-	
+
 }
